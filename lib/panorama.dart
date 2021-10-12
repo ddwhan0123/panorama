@@ -511,12 +511,8 @@ class _PanoramaState extends State<Panorama>
   }
 }
 
-startOrStopAnimation() {
-  if (_controller.isAnimating) {
-    _controller.stop();
-  } else {
-    _controller.forward();
-  }
+bool isAnimating() {
+  return _controller.isAnimating;
 }
 
 startAnimation() {
