@@ -132,6 +132,20 @@ class Panorama extends StatefulWidget {
   /// Place widgets in the panorama.
   final List<Hotspot>? hotspots;
 
+  static bool isAnimating() {
+    return _controller.isAnimating;
+  }
+
+  static startAnimation() {
+    if (!_controller.isAnimating) {
+      _controller.forward();
+    }
+  }
+
+  static stopAnimation() {
+    _controller.stop();
+  }
+
   @override
   _PanoramaState createState() => _PanoramaState();
 }
@@ -511,20 +525,6 @@ class _PanoramaState extends State<Panorama>
   }
 }
 
-bool isAnimating() {
-  return _controller.isAnimating;
-}
-
-startAnimation() {
-  if (!_controller.isAnimating) {
-    _controller.forward();
-  }
-}
-
-stopAnimation() {
-  _controller.stop();
-}
-
 class Hotspot {
   Hotspot({
     this.name,
@@ -634,4 +634,3 @@ Quaternion orientationToQuaternion(Vector3 v) {
   m.rotateY(v.x);
   return Quaternion.fromRotation(m.getRotation());
 }
-
