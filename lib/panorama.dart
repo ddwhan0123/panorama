@@ -222,10 +222,9 @@ class _PanoramaState extends State<Panorama>
     if (widget.sensorControl == SensorControl.None &&
         !_controller.isAnimating) {
       _controller.reset();
-      if (widget.animSpeed != 0) {
-        _controller.repeat();
-      } else
+      if (widget.animSpeed == 0) {
         _controller.forward();
+      }
     }
   }
 
@@ -454,8 +453,6 @@ class _PanoramaState extends State<Panorama>
     _controller = AnimationController(
         duration: Duration(milliseconds: 60000), vsync: this)
       ..addListener(_updateView);
-    if (widget.sensorControl != SensorControl.None || widget.animSpeed != 0)
-      _controller.repeat();
   }
 
   @override
