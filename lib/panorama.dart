@@ -451,7 +451,7 @@ class _PanoramaState extends State<Panorama>
     _updateSensorControl();
 
     _controller = AnimationController(
-        duration: Duration(milliseconds: 60000), vsync: this)
+        duration: Duration(milliseconds: 3600000), vsync: this)
       ..addListener(_updateView);
   }
 
