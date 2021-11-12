@@ -328,7 +328,7 @@ class _PanoramaState extends State<Panorama>
             Duration.microsecondsPerSecond ~/ 60;
         _orientationSubscription =
             motionSensors.orientation.listen((OrientationEvent event) {
-          orientation.setValues(event.yaw, event.pitch, event.roll);
+          orientation.setValues(event.pitch, event.roll + 90, event.yaw);
         });
         break;
       case SensorControl.AbsoluteOrientation:
@@ -336,7 +336,7 @@ class _PanoramaState extends State<Panorama>
             Duration.microsecondsPerSecond ~/ 60;
         _orientationSubscription = motionSensors.absoluteOrientation
             .listen((AbsoluteOrientationEvent event) {
-          orientation.setValues(event.yaw, event.pitch, event.roll);
+          orientation.setValues(event.pitch, event.roll + 90, event.yaw - 90);
         });
         break;
       default:
