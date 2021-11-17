@@ -231,6 +231,21 @@ class _PanoramaState extends State<Panorama>
     }
   }
 
+  void _handleScaleEnd(ScaleEndDetails details) {
+    latitudeDelta = 0;
+    longitudeDelta = 0;
+    if (_lastZoom == null) {
+      _lastZoom = scene!.camera.zoom;
+    }
+    if (widget.sensorControl == SensorControl.None &&
+        !_controller.isAnimating) {
+      _controller.reset();
+      if (widget.animSpeed == 0) {
+        _controller.forward();
+      }
+    }
+  }
+
   void _updateView() {
     if (scene == null) return;
     // auto rotate
@@ -313,7 +328,7 @@ class _PanoramaState extends State<Panorama>
             Duration.microsecondsPerSecond ~/ 60;
         _orientationSubscription =
             motionSensors.orientation.listen((OrientationEvent event) {
-          orientation.setValues(event.yaw, event.pitch, event.roll);
+          orientation.setValues(event.pitch, event.roll + 90, event.yaw);
         });
         break;
       case SensorControl.AbsoluteOrientation:
@@ -321,7 +336,7 @@ class _PanoramaState extends State<Panorama>
             Duration.microsecondsPerSecond ~/ 60;
         _orientationSubscription = motionSensors.absoluteOrientation
             .listen((AbsoluteOrientationEvent event) {
-          orientation.setValues(event.yaw, event.pitch, event.roll);
+          orientation.setValues(event.pitch, event.roll + 90, event.yaw - 90);
         });
         break;
       default:
@@ -512,6 +527,7 @@ class _PanoramaState extends State<Panorama>
         ? GestureDetector(
             onScaleStart: _handleScaleStart,
             onScaleUpdate: _handleScaleUpdate,
+            onScaleEnd: _handleScaleEnd,
             onTapUp: widget.onTap == null ? null : _handleTapUp,
             onLongPressStart:
                 widget.onLongPressStart == null ? null : _handleLongPressStart,
